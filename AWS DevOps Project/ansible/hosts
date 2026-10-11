@@ -1,0 +1,9 @@
+# Ansible inventory at /opt/docker/hosts on the Ansible server.
+# Replace with the private IPs of your own EC2 instances.
+localhost
+
+[kubernetes]
+<EKS_BOOTSTRAP_PRIVATE_IP>
+
+[ansible]
+<ANSIBLE_SERVER_PRIVATE_IP>

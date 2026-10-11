@@ -1,0 +1,16 @@
+---
+# Stage 4: applies the Kubernetes manifests from the EKS bootstrap server and
+# restarts the deployment so pods pull the newest image from Docker Hub.
+- hosts: kubernetes
+  #  become: true
+  user: root
+
+  tasks:
+  - name: deploy regapp on kubernetes
+    command: kubectl apply -f regapp-deployment.yml
+
+  - name: create service for regapp
+    command: kubectl apply -f regapp-service.yml
+
+  - name: update deployment with new pods if image updated in docker hub
+    command: kubectl rollout restart deployment.apps/corporate2-regapp
