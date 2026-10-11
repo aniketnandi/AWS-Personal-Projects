@@ -26,8 +26,9 @@
     }
   },
   // Opened with the `code` CLI rather than customizations.codespaces.openFiles,
-  // which always uses the text editor and ignores the preview association below
-  "postAttachCommand": "if command -v code >/dev/null; then code 'AWS DevOps Project/README.md'; fi",
+  // which always uses the text editor and ignores the preview association below.
+  // `|| true`: outside an editor (e.g. CI) the image's `code` is a stub that exits 127.
+  "postAttachCommand": "code 'AWS DevOps Project/README.md' || true",
   "customizations": {
     "vscode": {
       "settings": {
