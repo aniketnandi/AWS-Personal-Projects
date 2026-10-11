@@ -10,7 +10,7 @@ import {
 const client = new DynamoDBClient({});
 const dynamo = DynamoDBDocumentClient.from(client);
 
-const tableName = "students_grade_sheet";
+const tableName = process.env.TABLE_NAME ?? "students_grade_sheet";
 
 export const handler = async (event, context) => {
   let body;

@@ -1,0 +1,8 @@
+# Base: the manifests deployed to EKS. kube_deploy.yml applies these files
+# directly; kustomize only uses this to build the local overlay.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - regapp-deployment.yml
+  - regapp-service.yml
