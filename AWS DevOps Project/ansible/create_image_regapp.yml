@@ -1,0 +1,17 @@
+---
+# Builds the Tomcat-based regapp image from the WAR copied over by Jenkins,
+# tags it, and pushes it to Docker Hub.
+# (Named regapp.yml in Stage 3; renamed in Stage 4.)
+- hosts: ansible
+
+  tasks:
+  - name: create docker image
+    command: docker build -t regapp:latest .
+    args:
+      chdir: /opt/docker
+
+  - name: create tag to push image onto dockerhub
+    command: docker tag regapp:latest corporate2/regapp:latest
+
+  - name: push docker image
+    command: docker push corporate2/regapp:latest
