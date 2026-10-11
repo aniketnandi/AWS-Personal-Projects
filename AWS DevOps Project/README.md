@@ -12,7 +12,7 @@ I built it in four stages. Each stage adds one tool to the pipeline and replaces
 > 1. Watch the [demo video](https://drive.google.com/file/d/1XCPMsMGVa63H0cUDvO9HMZcQM9QgMOOj/view?usp=drive_link) of the pipeline running on AWS.
 > 2. Read the [Ansible playbooks](ansible/) and [Kubernetes manifests](kubernetes/) that drove the deployment.
 > 3. Open the latest [GitHub Actions run](https://github.com/aniketnandi/AWS-Personal-Projects/actions/workflows/devops-pipeline.yml). It rebuilds the app, the Docker image, and the Kubernetes deployment from this repo on every push.
-> 4. Run it yourself with one Docker command ([below](#run-it-yourself)). No AWS account needed.
+> 4. Run it yourself in your browser: click **Open in GitHub Codespaces** ([below](#run-it-yourself)). Nothing to install, no AWS account needed.
 
 ## Demo and documentation
 
@@ -60,20 +60,32 @@ flowchart LR
 
 ## Run it yourself
 
-The original AWS environment (6 EC2 servers and an EKS cluster) has been deleted. Everything below runs on a laptop with Docker and builds the same application image.
+The original AWS environment (6 EC2 servers and an EKS cluster) has been deleted. Everything below builds the same application image and runs the same Kubernetes manifests, with no AWS account.
+
+**Option A: in your browser, nothing to install** (recommended)
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/aniketnandi/AWS-Personal-Projects?quickstart=1)
+
+Click the button, then **Create codespace**. After about a minute you get VS Code in the browser with Docker, kind, and kubectl ready. Run the commands below in its terminal, starting from step 1's `cd` line. When port 8080 is forwarded, open it and add `/webapp` to the URL. Personal GitHub accounts include free Codespaces hours. Delete the codespace afterwards at [github.com/codespaces](https://github.com/codespaces).
+
+**Option B: on your own machine.** Requires [Docker](https://docs.docker.com/get-docker/) to be installed and running; step 2 also needs [kind](https://kind.sigs.k8s.io/) and `kubectl`.
+
+```bash
+git clone https://github.com/aniketnandi/AWS-Personal-Projects.git
+```
 
 **1. Build and run the container** (the Stage 2 and 3 result)
 
 ```bash
-git clone https://github.com/aniketnandi/AWS-Personal-Projects.git
-cd "AWS-Personal-Projects/AWS DevOps Project"
+cd "AWS DevOps Project"      # from the repository root
 
 docker build -t regapp:local app
 docker run --rm -p 8080:8080 regapp:local
-# open http://localhost:8080/webapp
+# open http://localhost:8080/webapp (in Codespaces: the forwarded port 8080 + /webapp)
+# Ctrl+C to stop
 ```
 
-**2. Deploy to Kubernetes** (the Stage 4 result) with [kind](https://kind.sigs.k8s.io/) and `kubectl`
+**2. Deploy to Kubernetes** (the Stage 4 result) on a local kind cluster
 
 ```bash
 kind create cluster --name regapp
