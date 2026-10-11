@@ -62,7 +62,7 @@ curl -X DELETE $API/items/124
 
 ## Run it yourself
 
-**Unit tests (no AWS account needed).** These mock DynamoDB and exercise every route plus the error paths.
+**Unit tests (no AWS account needed).** These mock DynamoDB and exercise every route plus the error paths. Run them locally with Node 22, or in a browser with [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/aniketnandi/AWS-Personal-Projects?quickstart=1)
 
 ```bash
 cd "CRUD API with Lambda and DynamoDB Project"

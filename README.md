@@ -1,8 +1,10 @@
 # AWS Personal Projects
 
-[![DevOps CI/CD Pipeline](https://github.com/aniketnandi/AWS-Personal-Projects/actions/workflows/devops-pipeline.yml/badge.svg)](https://github.com/aniketnandi/AWS-Personal-Projects/actions/workflows/devops-pipeline.yml) [![Serverless CRUD API](https://github.com/aniketnandi/AWS-Personal-Projects/actions/workflows/crud-api.yml/badge.svg)](https://github.com/aniketnandi/AWS-Personal-Projects/actions/workflows/crud-api.yml)
+[![DevOps CI/CD Pipeline](https://github.com/aniketnandi/AWS-Personal-Projects/actions/workflows/devops-pipeline.yml/badge.svg)](https://github.com/aniketnandi/AWS-Personal-Projects/actions/workflows/devops-pipeline.yml) [![Serverless CRUD API](https://github.com/aniketnandi/AWS-Personal-Projects/actions/workflows/crud-api.yml/badge.svg)](https://github.com/aniketnandi/AWS-Personal-Projects/actions/workflows/crud-api.yml) [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/aniketnandi/AWS-Personal-Projects?quickstart=1)
 
 Hands-on AWS projects covering **DevOps / CI/CD automation** and **serverless application development**. Each project folder has its own README with an architecture diagram, the code and configuration I used, screenshots of the results, and a full step-by-step build guide.
+
+**Want to run them?** Click **Open in GitHub Codespaces** above for a ready-made environment in your browser, with Docker, Kubernetes (kind), and Node preinstalled. No local setup or AWS account needed.
 
 ## Projects
 
@@ -12,7 +14,7 @@ Hands-on AWS projects covering **DevOps / CI/CD automation** and **serverless ap
 
 A pipeline that takes a Java web app from `git push` to a load-balanced, 3-replica Kubernetes deployment on Amazon EKS. Jenkins builds the app, Ansible builds the Docker image and pushes it to Docker Hub, and then Ansible rolls the new version out to EKS. I built it in four stages: Tomcat on EC2 → Docker → Ansible → EKS.
 
-**Try it:** from the project folder, `docker build -t regapp:local app && docker run -p 8080:8080 regapp:local` serves the app at `localhost:8080/webapp`. You can also deploy it to a local kind cluster. GitHub Actions rebuilds and deploys it on every push.
+**Try it:** in a codespace or locally, from the project folder, `docker build -t regapp:local app && docker run -p 8080:8080 regapp:local` serves the app at `localhost:8080/webapp`. You can also deploy it to a local kind cluster. GitHub Actions rebuilds and deploys it on every push.
 
 [README](AWS%20DevOps%20Project/README.md) · [Demo video](https://drive.google.com/file/d/1XCPMsMGVa63H0cUDvO9HMZcQM9QgMOOj/view?usp=drive_link) · [Ansible playbooks](AWS%20DevOps%20Project/ansible) · [Kubernetes manifests](AWS%20DevOps%20Project/kubernetes) · [Jenkins jobs](AWS%20DevOps%20Project/jenkins/README.md) · [Full documentation (PDF)](AWS%20DevOps%20Project/AWS%20DevOps%20CI_CD%20Project%20Documentation.pdf)
 

@@ -1,0 +1,42 @@
+# Builds the Codespaces / Dev Container environment and runs the reviewer
+# quick start inside it, so the "Open in GitHub Codespaces" button keeps working.
+name: Codespace environment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".devcontainer/**"
+      - ".github/workflows/devcontainer.yml"
+  pull_request:
+    paths:
+      - ".devcontainer/**"
+      - ".github/workflows/devcontainer.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  devcontainer:
+    name: Build dev container + run quick start
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: devcontainers/ci@v0.3
+        with:
+          push: never
+          runCmd: |
+            set -e
+            docker version
+            kind version
+            kubectl version --client
+            node --version
+            cd "AWS DevOps Project"
+            docker build -t regapp:local app
+            docker run -d --name regapp -p 8080:8080 regapp:local
+            for i in $(seq 1 30); do
+              curl -sf http://localhost:8080/webapp/ > /dev/null && break
+              sleep 2
+            done
+            curl -sf http://localhost:8080/webapp/ | grep "New User Registration"

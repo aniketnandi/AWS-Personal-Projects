@@ -1,0 +1,33 @@
+// One-click environment for reviewers: GitHub Codespaces (or VS Code Dev Containers)
+// with Docker, kind, kubectl, and Node ready to run both projects.
+{
+  "name": "AWS Personal Projects",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {},
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+      "helm": "none",
+      "minikube": "none"
+    },
+    "ghcr.io/devcontainers-extra/features/kind:1": {},
+    "ghcr.io/devcontainers/features/node:2": {
+      "version": "22"
+    }
+  },
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "8gb"
+  },
+  "forwardPorts": [8080],
+  "portsAttributes": {
+    "8080": {
+      "label": "RegApp (open /webapp)",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "codespaces": {
+      "openFiles": ["AWS DevOps Project/README.md"]
+    }
+  }
+}
