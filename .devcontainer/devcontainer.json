@@ -28,6 +28,14 @@
   "customizations": {
     "codespaces": {
       "openFiles": ["AWS DevOps Project/README.md"]
+    },
+    "vscode": {
+      "settings": {
+        // Open Markdown as the rendered preview (right-click > Open With... for the source)
+        "workbench.editorAssociations": {
+          "*.md": "vscode.markdown.preview.editor"
+        }
+      }
     }
   }
 }
