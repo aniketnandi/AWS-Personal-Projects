@@ -1,0 +1,42 @@
+name: Serverless CRUD API
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "CRUD API with Lambda and DynamoDB Project/**"
+      - ".github/workflows/crud-api.yml"
+  pull_request:
+    paths:
+      - "CRUD API with Lambda and DynamoDB Project/**"
+      - ".github/workflows/crud-api.yml"
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: CRUD API with Lambda and DynamoDB Project
+
+jobs:
+  test:
+    name: Unit tests + template validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: CRUD API with Lambda and DynamoDB Project/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - name: Lint SAM template
+        run: |
+          pipx install cfn-lint
+          cfn-lint template.yaml
+      - uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
+      - name: SAM validate + build
+        run: |
+          sam validate --lint --region us-east-1
+          sam build

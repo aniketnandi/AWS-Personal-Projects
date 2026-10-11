@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Serverless CRUD API: API Gateway HTTP API -> Lambda -> DynamoDB.
+  Deploy with `sam deploy --guided`; remove with `sam delete`.
+
+Resources:
+  StudentsGradeSheetTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  StudentsGradeSheetApi:
+    Type: AWS::Serverless::HttpApi
+
+  StudentsGradeSheetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/
+      Handler: index.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - arm64
+      MemorySize: 128
+      Timeout: 10
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref StudentsGradeSheetTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref StudentsGradeSheetTable
+      Events:
+        PutItem:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref StudentsGradeSheetApi
+            Method: PUT
+            Path: /items
+        ListItems:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref StudentsGradeSheetApi
+            Method: GET
+            Path: /items
+        GetItem:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref StudentsGradeSheetApi
+            Method: GET
+            Path: /items/{id}
+        DeleteItem:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref StudentsGradeSheetApi
+            Method: DELETE
+            Path: /items/{id}
+
+Outputs:
+  ApiUrl:
+    Description: Invoke URL of the HTTP API
+    Value: !Sub "https://${StudentsGradeSheetApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}"
+  TableName:
+    Description: DynamoDB table backing the API
+    Value: !Ref StudentsGradeSheetTable

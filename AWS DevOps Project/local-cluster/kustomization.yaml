@@ -1,0 +1,22 @@
+# Runs the EKS manifests unchanged on a local cluster (kind or minikube):
+# uses the locally built image instead of pulling corporate2/regapp from Docker Hub.
+#   kubectl apply -k local-cluster
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../kubernetes
+
+images:
+  - name: corporate2/regapp
+    newName: regapp
+    newTag: local
+
+patches:
+  - target:
+      kind: Deployment
+      name: corporate2-regapp
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/imagePullPolicy
+        value: IfNotPresent
